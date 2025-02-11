@@ -27,11 +27,15 @@ app.get("/", (req, res) => {
     res.send("hello world!");
 })
 
+app.get("/arham", (req, res) => {
+    console.log("arham")
+})
+
 // app.use("/api", indexRouter);
 // app.use("/api/owners", ownersRouter);
 // app.use("/api/users", usersRouter);
 // app.use("/api/product", productsRouter);
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`App running on http://localhost:${process.env.PORT}` || 3000);
+app.listen(process.env.PORT, () => {
+    console.log(`App running on http://localhost:${process.env.PORT}`);
 })
