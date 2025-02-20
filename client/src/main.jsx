@@ -12,7 +12,7 @@ import store from "./store/store.js"
 import SignUpPage from './pages/SignUpPage'
 import AdminPage from './pages/AdminPage'
 import AdminAuthLayout from "./components/AdminAuthLayout"
-import AdminDashboardPage from './pages/AdminDashboardPage'
+// import AdminDashboardPage from './pages/AdminDashboardPage'
 import AdminProductsMangementPage from './pages/AdminProductsMangementPage'
 import ProductPage from './pages/ProductPage'
 
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
             path: "/admin/dashboard",
             element: (
               <AdminAuthLayout>
-                <AdminDashboardPage />
+                {/* <AdminDashboardPage /> */}
               </AdminAuthLayout>
             )
           },
