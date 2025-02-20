@@ -4,17 +4,17 @@ import './index.css'
 import App from './App.jsx'
 import 'remixicon/fonts/remixicon.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import HomePage from './pages/HomePage.jsx'
-import ProductsPage from './pages/ProductsPage.jsx'
-import LoginPage from './pages/LoginPage.jsx'
+import HomePage from './pages/HomePage'
+import ProductsPage from './pages/ProductsPage'
+import LoginPage from './pages/LoginPage'
 import { Provider } from "react-redux"
 import store from "./store/store.js"
-import SignUpPage from './pages/SignUpPage.jsx'
-import AdminPage from './pages/AdminPage.jsx'
-import AdminAuthLayout from "./components/AdminAuthLayout.jsx"
-import AdminDashboardPage from './pages/AdminDashboardPage.jsx'
-import AdminProductsMangementPage from './pages/AdminProductsMangementPage.jsx'
-import ProductPage from './pages/ProductPage.jsx'
+import SignUpPage from './pages/SignUpPage'
+import AdminPage from './pages/AdminPage'
+import AdminAuthLayout from "./components/AdminAuthLayout"
+import AdminDashboardPage from './pages/AdminDashboardPage'
+import AdminProductsMangementPage from './pages/AdminProductsMangementPage'
+import ProductPage from './pages/ProductPage'
 
 const router = createBrowserRouter([
   {
