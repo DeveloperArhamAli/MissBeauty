@@ -1,34 +1,31 @@
 import { Outlet } from "react-router-dom"
 import Header from "./components/Header/Header"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import axios from "axios"
-import { useDispatch } from "react-redux"
-import { login as authLogin, logout } from "./store/authSlice"
+import useAuthStore from "./store/useAuthStore"
 
 function App() {
-  const [loading, setLoading] = useState(true)
-  const dispatch = useDispatch()
-  
+  const { login, logout } = useAuthStore()
+
   useEffect(() => {
     axios.get('/api/users/isLoggedIn')
       .then((response) => {
         if (response.data.loggedIn) {
-          dispatch(authLogin(response.data.userData))
+          login({
+            _id: response.data.userData._id,
+            name: response.data.userData.name,
+            email: response.data.userData.email,
+          })
         } else {
-          dispatch(logout())
+          logout()
         }
       })
-      .finally(() => setLoading(false))
   }, [])
   
-    return !loading ? (
+    return (
       <div className="bg-zinc-200">
         <Header />
         <Outlet />
-      </div>
-    ) : (
-      <div className="flex items-center justify-center min-h-screen w-full bg-[#ea667e] text-white">
-        <h1 className="text-3xl">Loading...</h1>
       </div>
     )
 }
