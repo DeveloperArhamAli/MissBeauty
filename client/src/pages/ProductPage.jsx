@@ -1,7 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import parse from "html-react-parser"
 
 function ProductPage() {
     const [product, setProduct] = useState(null)
@@ -103,7 +102,7 @@ function ProductPage() {
 
                     <div className="mt-10 border border-zinc-400 px-4 py-4 overflow-hidden hidden lg:flex flex-col">
                         <h1 className="text-2xl mb-4">Description:</h1>
-                        <h1 className="max-w-md">{parse(product.description)}</h1>
+                        <h1 className="max-w-md">{(product.description)}</h1>
                     </div>
 
                 </div>
@@ -112,7 +111,7 @@ function ProductPage() {
 
             <div className="mt-10 border border-zinc-400 px-4 py-4 overflow-hidden lg:hidden">
                 <h1 className="text-2xl mb-4">Description:</h1>
-                <h1 className="max-w-md">{parse(product.description)}</h1>
+                <h1 className="max-w-md">{(product.description)}</h1>
 
             </div>
 
