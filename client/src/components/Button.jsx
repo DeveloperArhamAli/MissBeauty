@@ -1,12 +1,5 @@
 import PropTypes from "prop-types"
 
-Button.propTypes = {
-    label: PropTypes.string.isRequired,
-    onClick: PropTypes.func,
-    className: PropTypes.string,
-    type: PropTypes.string,
-}
-
 function Button({
     label,
     onClick,
@@ -25,4 +18,13 @@ function Button({
         </button>
     )
 }
+
+Button.propTypes = {
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
+    className: PropTypes.string,
+    type: PropTypes.string,
+}
+
+
 export default Button

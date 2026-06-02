@@ -1,12 +1,6 @@
 import { NavLink } from "react-router-dom"
 import PropTypes from "prop-types"
 
-LinkButton.propTypes = {
-    to: PropTypes.string.isRequired,
-    className: PropTypes.string,
-    label: PropTypes.string.isRequired,
-}
-
 function LinkButton({
     to,
     className = "",
@@ -21,4 +15,11 @@ function LinkButton({
         </NavLink>
     )
 }
+
+LinkButton.propTypes = {
+    to: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    label: PropTypes.string.isRequired,
+}
+
 export default LinkButton

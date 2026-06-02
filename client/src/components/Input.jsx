@@ -1,16 +1,6 @@
 import { forwardRef, useId } from "react"
 import PropTypes from "prop-types"
 
-Input.propTypes = {
-    type: PropTypes.string,
-    placeholder: PropTypes.string,
-    value: PropTypes.string,
-    className: PropTypes.string,
-    disabled: PropTypes.bool,
-    label: PropTypes.string,
-    required: PropTypes.bool,
-}
-
 const Input = forwardRef(function Input({
     type = "text",
     placeholder,
@@ -40,5 +30,15 @@ const Input = forwardRef(function Input({
         </div>
     )
 })
+
+Input.propTypes = {
+    type: PropTypes.string,
+    placeholder: PropTypes.string,
+    value: PropTypes.string,
+    className: PropTypes.string,
+    disabled: PropTypes.bool,
+    label: PropTypes.string,
+    required: PropTypes.bool,
+}
 
 export default Input

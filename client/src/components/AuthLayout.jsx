@@ -2,11 +2,6 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import PropTypes from "prop-types"
 
-Protected.propTypes = {
-    children: PropTypes.node.isRequired,
-    authentication: PropTypes.bool
-}
-
 export default function Protected({children, authentication = true}) {
     const navigate = useNavigate()
     const [loader, setLoader] = useState(true)
@@ -21,4 +16,9 @@ export default function Protected({children, authentication = true}) {
     }, [navigate, authentication])
     
     return loader ? <div>Loading...</div> : <>{children}</>
+}
+
+Protected.propTypes = {
+    children: PropTypes.node.isRequired,
+    authentication: PropTypes.bool
 }
