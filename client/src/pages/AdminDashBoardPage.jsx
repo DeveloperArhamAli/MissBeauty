@@ -1,7 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import DashCard from "../components/AdminComponents/DashCard"
-import { BagSvg, CartSvg, RevenueSvg, UserSvg } from "../assets/svg/index.js"
 
 function AdminDashboardPage() {
     const [userCount, setUserCount] = useState(null)
@@ -39,17 +38,17 @@ function AdminDashboardPage() {
 
                     <div className="flex flex-wrap -mx-6">
 
-                        <DashCard heading={userCount} svgBg="bg-indigo-500" content="Total Users" svg={<UserSvg />} />
+                        <DashCard heading={userCount} svgBg="bg-indigo-500" content="Total Users" />
 
-                        <DashCard heading={`Rs. ${totalRevenueLastWeek}`} svgBg="bg-green-600" content="Weekly Revenue" svg={<RevenueSvg />} />
+                        <DashCard heading={`Rs. ${totalRevenueLastWeek}`} svgBg="bg-green-600" content="Weekly Revenue" />
 
-                        <DashCard heading={`${totalOrdersinlast24hrs} Orders`} svgBg="bg-orange-600" content="in 24 hrs" svg={<CartSvg />} />
+                        <DashCard heading={`${totalOrdersinlast24hrs} Orders`} svgBg="bg-orange-600" content="in 24 hrs" />
 
-                        <DashCard heading={productCount} svgBg="bg-pink-600" content="Total Products" svg={<BagSvg />} />
+                        <DashCard heading={productCount} svgBg="bg-pink-600" content="Total Products" />
 
-                        <DashCard heading={`Rs. ${totalRevenue}`} svgBg="bg-green-600" content="Total Revenue" svg={<RevenueSvg />} />
+                        <DashCard heading={`Rs. ${totalRevenue}`} svgBg="bg-green-600" content="Total Revenue" />
 
-                        <DashCard heading={totalOrders} svgBg="bg-orange-600" content="Total Orders" svg={<CartSvg />} />
+                        <DashCard heading={totalOrders} svgBg="bg-orange-600" content="Total Orders" />
 
                     </div>
                     
