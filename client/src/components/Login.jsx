@@ -14,7 +14,7 @@ function Login() {
     const navigate = useNavigate()
     const { register, handleSubmit } = useForm()
     
-    const login = async (data) => {
+    const loginUser = async (data) => {
         setError(null)
         try {
             axios.post('/api/users/login', data)
@@ -41,7 +41,7 @@ function Login() {
                     <h1 className="text-3xl text-center mt-2">Login to your account.</h1>
                     <p className="text-center mb-5">Don&apos;t have an account? <Link className="font-bold underline" to="/signup">Sign Up</Link></p>
                     {error ? <p className="text-red-500 text-center">{error}</p> : null}
-                    <form onSubmit={handleSubmit(login)} className="flex flex-col gap-3">
+                    <form onSubmit={handleSubmit(loginUser)} className="flex flex-col gap-3">
                         <Input placeholder="example@123.com" label="Email" type="email" required={true} {...register("email", {
                             required: true,
                             validate: {
@@ -51,7 +51,7 @@ function Login() {
                                     : "Email address must be a valid address",
                             }                                
                         })} />
-                        <Input placeholder="123456789" label="Password" type="password" required={true} {...register("password", {
+                        <Input placeholder="********" label="Password" type="password" required={true} {...register("password", {
                             required: true,
                         })}/>
                         <Button label="Login" className="text-center text-lg" type="submit"/>
