@@ -1,4 +1,18 @@
 import { Link } from "react-router-dom"
+import PropTypes from "prop-types"
+
+ProductCard.propTypes = {
+    product: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        imageSrc: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        brand: PropTypes.string,
+        price: PropTypes.number.isRequired,
+        discount: PropTypes.number,
+        stock: PropTypes.number.isRequired
+    }).isRequired
+}
 
 function ProductCard({product}) {
 

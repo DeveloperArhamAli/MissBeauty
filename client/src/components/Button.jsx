@@ -1,3 +1,12 @@
+import PropTypes from "prop-types"
+
+Button.propTypes = {
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
+    className: PropTypes.string,
+    type: PropTypes.string,
+}
+
 function Button({
     label,
     onClick,
@@ -10,7 +19,10 @@ function Button({
             onClick={onClick}
             className={`rounded-md p-2 bg-[#ea667e] text-white cursor-pointer w-full ${className}`}
             type={type}
-            {...props}>{label}</button>
+            {...props}
+        >
+            {label}
+        </button>
     )
 }
 export default Button

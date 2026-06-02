@@ -1,4 +1,15 @@
 import { forwardRef, useId } from "react"
+import PropTypes from "prop-types"
+
+Input.propTypes = {
+    type: PropTypes.string,
+    placeholder: PropTypes.string,
+    value: PropTypes.string,
+    className: PropTypes.string,
+    disabled: PropTypes.bool,
+    label: PropTypes.string,
+    required: PropTypes.bool,
+}
 
 const Input = forwardRef(function Input({
     type = "text",
@@ -24,7 +35,8 @@ const Input = forwardRef(function Input({
                 id={id}
                 required={required}
                 ref={ref}
-                {...props} />
+                {...props}
+            />
         </div>
     )
 })
