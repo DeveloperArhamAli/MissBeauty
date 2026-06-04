@@ -56,13 +56,13 @@ const HeroCarousel = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 }}
-                    className="flex flex-wrap gap-4"
+                    className="flex flex-wrap gap-2 lg:gap-4"
                   >
                     {slide.buttons.map((button, index) => (
                       <a
                         key={index}
                         href={button.link}
-                        className={`px-8 py-3 uppercase text-sm tracking-wider font-medium transition-all duration-300 ${
+                        className={`px-3 py-1.5 lg:px-8 lg:py-3 uppercase text-sm tracking-wider font-medium transition-all duration-300 ${
                           button.type === 'primary'
                             ? 'bg-gold text-white hover:bg-gold-dark'
                             : 'border-2 border-white text-white hover:bg-white hover:text-charcoal'
