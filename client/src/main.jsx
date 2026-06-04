@@ -9,6 +9,7 @@ import SignUpPage from './pages/SignUpPage'
 import ProductPage from './pages/ProductPage'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import ShopPage from './pages/ShopPage.jsx'
+import CategoryPage from './pages/CategoryPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -24,16 +25,20 @@ const router = createBrowserRouter([
         element: <ShopPage />,
       },
       {
-        path: "/product/:id",
-        element: <ProductPage />
-      },
-      {
         path: "/login",
         element: <LoginPage />
       },
       {
         path: "/signup",
         element: <SignUpPage />
+      },
+      {
+        path: "/product/:productId",
+        element: <ProductPage />
+      },
+      {
+        path: "/category/:categoryId",
+        element: <CategoryPage />
       },
     ]
   }

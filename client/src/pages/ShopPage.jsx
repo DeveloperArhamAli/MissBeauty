@@ -19,22 +19,22 @@ const ShopPage = () => {
 
   // Sample products data
   const allProducts = [
-    { id: 1, name: "HD Foundation - Flawless Finish", brand: "Rivaj HD", price: 1299, oldPrice: 1799, rating: 4.8, reviews: 342, image: "https://images.unsplash.com/photo-1595051665600-afd01ea7c446?w=400&q=80", badge: "Sale", category: "makeup" },
-    { id: 2, name: "Matte Lipstick - Nude Collection", brand: "Rivaj UK", price: 899, oldPrice: 1299, rating: 4.6, reviews: 189, image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80", badge: "Best Seller", category: "makeup" },
-    { id: 3, name: "Vitamin C Brightening Serum", brand: "Rivaj UK", price: 1499, oldPrice: 1999, rating: 4.9, reviews: 456, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80", badge: "Best Seller", category: "skincare" },
-    { id: 4, name: "Retinol Night Cream", brand: "Rivaj UK", price: 1799, oldPrice: 2499, rating: 4.6, reviews: 189, image: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=400&q=80", badge: "Sale", category: "skincare" },
-    { id: 5, name: "Waterproof Mascara", brand: "Rivaj UK", price: 699, oldPrice: null, rating: 4.5, reviews: 567, image: "https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?w=400&q=80", badge: "Popular", category: "makeup" },
-    { id: 6, name: "Rose Water Toner", brand: "Rivaj UK", price: 599, oldPrice: 899, rating: 4.8, reviews: 345, image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&q=80", badge: "Sale", category: "skincare" },
-    { id: 7, name: "Contour & Highlight Palette", brand: "Rivaj HD", price: 1999, oldPrice: null, rating: 4.9, reviews: 234, image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400&q=80", badge: "New", category: "makeup" },
-    { id: 8, name: "Argan Oil Hair Serum", brand: "Rivaj UK", price: 899, oldPrice: 1199, rating: 4.7, reviews: 432, image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=400&q=80", badge: "Sale", category: "haircare" },
-    { id: 9, name: "BB Glow Cream SPF 30", brand: "Rivaj UK", price: 1299, oldPrice: null, rating: 4.6, reviews: 123, image: "https://images.unsplash.com/photo-1570194065650-d99fb4ee8e78?w=400&q=80", badge: "New", category: "skincare" },
-    { id: 10, name: "Matte Eyeshadow Palette - 12 Shades", brand: "Rivaj HD", price: 2499, oldPrice: 2999, rating: 4.8, reviews: 89, image: "https://images.unsplash.com/photo-1583241800698-e8ad37617af1?w=400&q=80", badge: "New", category: "makeup" },
-    { id: 11, name: "Hyaluronic Acid Face Mask Set", brand: "Rivaj UK", price: 899, oldPrice: null, rating: 4.5, reviews: 67, image: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=400&q=80", badge: "New", category: "skincare" },
-    { id: 12, name: "Silk Finish Compact Powder", brand: "Rivaj HD", price: 999, oldPrice: 1299, rating: 4.7, reviews: 156, image: "https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?w=400&q=80", badge: "Sale", category: "makeup" },
-    { id: 13, name: "Hair Repair Shampoo", brand: "Rivaj UK", price: 799, oldPrice: null, rating: 4.4, reviews: 234, image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=400&q=80", badge: null, category: "haircare" },
-    { id: 14, name: "Eau De Parfum - Rose", brand: "Rivaj UK", price: 3499, oldPrice: 4499, rating: 4.9, reviews: 178, image: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&q=80", badge: "Sale", category: "fragrances" },
-    { id: 15, name: "Makeup Brush Set - Professional", brand: "Rivaj HD", price: 2999, oldPrice: null, rating: 4.7, reviews: 312, image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80", badge: "Best Seller", category: "accessories" },
-    { id: 16, name: "Sunscreen SPF 50", brand: "Rivaj UK", price: 699, oldPrice: 899, rating: 4.5, reviews: 445, image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&q=80", badge: "Sale", category: "skincare" },
+    { id: 1, name: "HD Foundation - Flawless Finish", brand: "Silk Hue HD", price: 1299, oldPrice: 1799, rating: 4.8, reviews: 342, image: "https://images.unsplash.com/photo-1595051665600-afd01ea7c446?w=400&q=80", badge: "Sale", category: "makeup" },
+    { id: 2, name: "Matte Lipstick - Nude Collection", brand: "Silk Hue", price: 899, oldPrice: 1299, rating: 4.6, reviews: 189, image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80", badge: "Best Seller", category: "makeup" },
+    { id: 3, name: "Vitamin C Brightening Serum", brand: "Silk Hue", price: 1499, oldPrice: 1999, rating: 4.9, reviews: 456, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80", badge: "Best Seller", category: "skincare" },
+    { id: 4, name: "Retinol Night Cream", brand: "Silk Hue", price: 1799, oldPrice: 2499, rating: 4.6, reviews: 189, image: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=400&q=80", badge: "Sale", category: "skincare" },
+    { id: 5, name: "Waterproof Mascara", brand: "Silk Hue", price: 699, oldPrice: null, rating: 4.5, reviews: 567, image: "https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?w=400&q=80", badge: "Popular", category: "makeup" },
+    { id: 6, name: "Rose Water Toner", brand: "Silk Hue", price: 599, oldPrice: 899, rating: 4.8, reviews: 345, image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&q=80", badge: "Sale", category: "skincare" },
+    { id: 7, name: "Contour & Highlight Palette", brand: "Silk Hue HD", price: 1999, oldPrice: null, rating: 4.9, reviews: 234, image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400&q=80", badge: "New", category: "makeup" },
+    { id: 8, name: "Argan Oil Hair Serum", brand: "Silk Hue", price: 899, oldPrice: 1199, rating: 4.7, reviews: 432, image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=400&q=80", badge: "Sale", category: "haircare" },
+    { id: 9, name: "BB Glow Cream SPF 30", brand: "Silk Hue", price: 1299, oldPrice: null, rating: 4.6, reviews: 123, image: "https://plus.unsplash.com/premium_photo-1670584258172-102db20b1da3?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", badge: "New", category: "skincare" },
+    { id: 10, name: "Matte Eyeshadow Palette - 12 Shades", brand: "Silk Hue HD", price: 2499, oldPrice: 2999, rating: 4.8, reviews: 89, image: "https://images.unsplash.com/photo-1625094640367-05f84293fe42?q=80&w=864&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", badge: "New", category: "makeup" },
+    { id: 11, name: "Hyaluronic Acid Face Mask Set", brand: "Silk Hue", price: 899, oldPrice: null, rating: 4.5, reviews: 67, image: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=400&q=80", badge: "New", category: "skincare" },
+    { id: 12, name: "Silk Finish Compact Powder", brand: "Silk Hue HD", price: 999, oldPrice: 1299, rating: 4.7, reviews: 156, image: "https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?w=400&q=80", badge: "Sale", category: "makeup" },
+    { id: 13, name: "Hair Repair Shampoo", brand: "Silk Hue", price: 799, oldPrice: null, rating: 4.4, reviews: 234, image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=400&q=80", badge: null, category: "haircare" },
+    { id: 14, name: "Eau De Parfum - Rose", brand: "Silk Hue", price: 3499, oldPrice: 4499, rating: 4.9, reviews: 178, image: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&q=80", badge: "Sale", category: "fragrances" },
+    { id: 15, name: "Makeup Brush Set - Professional", brand: "Silk Hue HD", price: 2999, oldPrice: null, rating: 4.7, reviews: 312, image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80", badge: "Best Seller", category: "accessories" },
+    { id: 16, name: "Sunscreen SPF 50", brand: "Silk Hue", price: 699, oldPrice: 899, rating: 4.5, reviews: 445, image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&q=80", badge: "Sale", category: "skincare" },
   ];
 
   const categories = [
@@ -191,7 +191,7 @@ const ShopPage = () => {
               <div>
                 <h3 className="font-serif text-lg font-bold text-charcoal mb-4">Brands</h3>
                 <div className="space-y-2">
-                  {['Rivaj UK', 'Rivaj HD', 'Rivaj Pro'].map((brand) => (
+                  {['Silk Hue', 'Silk Hue HD', 'Silk Hue Pro'].map((brand) => (
                     <label key={brand} className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"

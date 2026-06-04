@@ -8,11 +8,11 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Shop', href: '/shop' },
-    { name: 'Makeup', href: '/makeup' },
-    { name: 'Skin Care', href: '/skincare' },
-    { name: 'Hair Care', href: '/haircare' },
-    { name: 'Fragrances', href: '/fragrances' },
-    { name: 'Collections', href: '/collections' },
+    { name: 'Makeup', href: '/category/makeup' },
+    { name: 'Skin Care', href: '/category/skincare' },
+    { name: 'Hair Care', href: '/category/haircare' },
+    { name: 'Fragrances', href: '/category/fragrances' },
+    { name: 'Collections', href: '/category/collections' },
   ];
 
   return (
