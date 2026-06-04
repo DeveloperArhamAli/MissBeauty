@@ -4,11 +4,11 @@ import './index.css'
 import App from './App.jsx'
 import 'remixicon/fonts/remixicon.css'
 import HomePage from './pages/HomePage'
-import ProductsPage from './pages/ProductsPage'
 import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
 import ProductPage from './pages/ProductPage'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import ShopPage from './pages/ShopPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -20,8 +20,8 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
       {
-        path: "/products",
-        element: <ProductsPage />,
+        path: "/shop",
+        element: <ShopPage />,
       },
       {
         path: "/product/:id",
