@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Company */}
           <div>
-            <h3 className="text-2xl font-serif font-bold mb-6">
+            <h3 className="text-3xl font-sourgumyy font-bold mb-6">
               SILK<span className="text-gold">HUE</span>
             </h3>
             <p className="text-gray-400 mb-6 leading-relaxed">
@@ -29,7 +29,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-serif text-lg font-bold mb-6">Quick Links</h4>
+            <h4 className="text-lg font-bold mb-6">Quick Links</h4>
             <ul className="space-y-3">
               {['About Us', 'Careers', 'Contact Us', 'Store Locator', 'Affiliate Program'].map((item) => (
                 <li key={item}>
@@ -43,7 +43,7 @@ const Footer = () => {
 
           {/* Customer Care */}
           <div>
-            <h4 className="font-serif text-lg font-bold mb-6">Customer Care</h4>
+            <h4 className="text-lg font-bold mb-6">Customer Care</h4>
             <ul className="space-y-3">
               {['Shipping Information', 'Returns & Exchange', 'FAQs', 'Track Order', 'Privacy Policy'].map((item) => (
                 <li key={item}>
@@ -57,7 +57,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-serif text-lg font-bold mb-6">Contact Info</h4>
+            <h4 className="text-lg font-bold mb-6">Contact Info</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-gray-400">
                 <i className="ri-map-pin-line text-lg flex-shrink-0 mt-0.5 text-gold"></i>
