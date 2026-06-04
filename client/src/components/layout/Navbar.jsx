@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
+import CartDrawer from '../CartDrawer';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const [cartCount] = useState(3);
 
   const navLinks = [
@@ -69,8 +71,11 @@ const Navbar = () => {
               <i className="ri-user-line text-xl"></i>
             </button>
             
-            <button className="relative text-charcoal hover:text-gold transition-colors">
-              <i className="ri-shopping-cart-line text-xl"></i>
+            <button 
+              onClick={() => setCartOpen(true)}
+              className="relative text-charcoal hover:text-gold transition-colors"
+            >
+              <i className="ri-shopping-cart-line text-xl cursor-pointer"></i>
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-gold text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                   {cartCount}
@@ -98,6 +103,9 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
+      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      
     </nav>
   );
 };
