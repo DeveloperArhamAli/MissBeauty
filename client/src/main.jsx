@@ -10,6 +10,7 @@ import ProductPage from './pages/ProductPage'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import ShopPage from './pages/ShopPage.jsx'
 import CategoryPage from './pages/CategoryPage.jsx'
+import CheckoutPage from './pages/CheckoutPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignUpPage />
+      },
+      {
+        path: "/checkout",
+        element: <CheckoutPage />
       },
       {
         path: "/product/:productId",
