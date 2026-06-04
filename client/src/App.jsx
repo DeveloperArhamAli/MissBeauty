@@ -1,8 +1,10 @@
 import { Outlet } from "react-router-dom"
-import Header from "./components/Header/Header"
 import { useEffect } from "react"
 import axios from "axios"
 import useAuthStore from "./store/useAuthStore"
+import AnnouncementBar from "./components/layout/AnnouncementBar"
+import Navbar from "./components/layout/Navbar"
+import Footer from "./components/layout/Footer"
 
 function App() {
   const { login, logout } = useAuthStore()
@@ -23,9 +25,11 @@ function App() {
   }, [])
   
     return (
-      <div className="bg-zinc-200">
-        <Header />
+      <div>
+        <AnnouncementBar />
+        <Navbar />
         <Outlet />
+        <Footer />
       </div>
     )
 }

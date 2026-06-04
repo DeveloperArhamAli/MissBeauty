@@ -1,10 +1,71 @@
 @import "tailwindcss";
 
 @font-face {
-    font-family: "Poppins";
-    src: url("./assets/fonts/Poppins/Poppins-Regular.ttf");
+  font-family: "SourGummy";
+  src: url("./assets/fonts/Sour_Gummy/static/SourGummy-Bold.ttf");
 }
 
-* {
-    font-family: "Poppins";
+@theme {
+  /* Colors */
+  --color-gold: #C9A66B;
+  --color-gold-light: #D4B98C;
+  --color-gold-dark: #B8944F;
+
+  --color-nude: #F5E6D8;
+  --color-nude-light: #FDF5F0;
+  --color-nude-dark: #E8D5C4;
+
+  --color-charcoal: #222222;
+
+  /* Fonts */
+  --font-sourgumyy: "SourGummy";
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-helvetica: "Helvetica";
+
+  /* Custom Max Width */
+  --container-1440: 1440px;
+}
+
+
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+@import 'swiper/css/navigation';
+
+@layer base {
+  body {
+    @apply font-helvetica text-charcoal antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-charcoal text-white px-8 py-3 rounded-none uppercase text-sm tracking-wider font-medium hover:bg-gold transition-colors duration-300;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-charcoal text-charcoal px-8 py-3 rounded-none uppercase text-sm tracking-wider font-medium hover:bg-charcoal hover:text-white transition-colors duration-300;
+  }
+
+  .btn-gold {
+    @apply bg-gold text-white px-8 py-3 rounded-none uppercase text-sm tracking-wider font-medium hover:bg-gold-dark transition-colors duration-300;
+  }
+
+  .container-custom {
+    @apply max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+/* Scrollbar Hide */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
 }
