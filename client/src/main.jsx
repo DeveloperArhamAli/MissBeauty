@@ -11,6 +11,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import ShopPage from './pages/ShopPage.jsx'
 import CategoryPage from './pages/CategoryPage.jsx'
 import CheckoutPage from './pages/CheckoutPage.jsx'
+import PaymentPage from './pages/PaymentPage.jsx'
+import OrderSuccessPage from './pages/OrderSuccessPage.jsx'
+import OrderFailedPage from './pages/OrderFailedPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -36,6 +39,18 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <CheckoutPage />
+      },
+      {
+        path: "/payment",
+        element: <PaymentPage />
+      },
+      {
+        path: "/order-success",
+        element: <OrderSuccessPage />
+      },
+      {
+        path: "/order-failed",
+        element: <OrderFailedPage />
       },
       {
         path: "/product/:productId",
