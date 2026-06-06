@@ -23,6 +23,8 @@ import AboutPage from './pages/AboutPage.jsx'
 import ContactPage from './pages/ContactPage.jsx'
 import FAQPage from './pages/FAQPage.jsx'
 import SearchPage from './pages/SearchPage.jsx'
+import BlogPage from './pages/BlogPage.jsx'
+import BlogPostPage from './pages/BlogPostPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -109,6 +111,14 @@ const router = createBrowserRouter([
         path: "/category/:categoryId",
         element: <CategoryPage />
       },
+      {
+        path: "/blog",
+        element: <BlogPage />
+      },
+      {
+        path: "/blog/:postSlug",
+        element: <BlogPostPage />
+      }
     ]
   }
 ])
