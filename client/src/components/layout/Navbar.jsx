@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import CartDrawer from '../CartDrawer';
+import useAuthStore from '../../store/useAuthStore';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [cartCount] = useState(3);
+  const { isAuthenticated } = useAuthStore();
 
   const navLinks = [
     { name: 'Shop', href: '/shop' },
@@ -64,11 +66,15 @@ const Navbar = () => {
             </button>
             
             <button className="text-charcoal hover:text-gold transition-colors hidden sm:block">
-              <i className="ri-heart-line text-xl"></i>
+              <Link to={isAuthenticated ? "/wishlist" : "/login"}>
+                <i className="ri-heart-line text-xl"></i>
+              </Link>
             </button>
             
             <button className="text-charcoal hover:text-gold transition-colors hidden sm:block">
-              <i className="ri-user-line text-xl"></i>
+              <Link to={isAuthenticated ? "/profile" : "/login"}>
+                <i className="ri-user-line text-xl"></i>
+              </Link>
             </button>
             
             <button 

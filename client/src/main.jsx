@@ -14,6 +14,11 @@ import CheckoutPage from './pages/CheckoutPage.jsx'
 import PaymentPage from './pages/PaymentPage.jsx'
 import OrderSuccessPage from './pages/OrderSuccessPage.jsx'
 import OrderFailedPage from './pages/OrderFailedPage.jsx'
+import ProtectedRoute from './components/utils/ProtectedRoute.jsx'
+import ProfilePage from './pages/ProfilePage.jsx'
+import WishlistPage from './pages/WishlistPage.jsx'
+import OrdersPage from './pages/OrdersPage.jsx'
+import TrackOrderPage from './pages/TrackOrderPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -51,6 +56,26 @@ const router = createBrowserRouter([
       {
         path: "/order-failed",
         element: <OrderFailedPage />
+      },
+      {
+        path: "/profile",
+        element: <ProtectedRoute><ProfilePage /></ProtectedRoute>
+      },
+      {
+        path: "/wishlist",
+        element: <ProtectedRoute><WishlistPage /></ProtectedRoute>
+      },
+      {
+        path: "/orders",
+        element: <ProtectedRoute><OrdersPage /></ProtectedRoute>
+      },
+      {
+        path: "/track-order",
+        element: <TrackOrderPage />
+      },
+      {
+        path: "/track-order/:orderId",
+        element: <TrackOrderPage />
       },
       {
         path: "/product/:productId",

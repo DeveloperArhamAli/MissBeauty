@@ -7,14 +7,14 @@ const OrderFailedPage = () => {
   const orderDetails = location.state || {};
 
   const orderData = {
-    orderNumber: orderDetails.orderNumber || 'RUK-2024-001234',
+    orderNumber: orderDetails.orderNumber || 'SH-2024-001234',
     total: orderDetails.total || 3097,
     errorMessage: orderDetails.errorMessage || 'Your payment could not be processed. Please try again.',
     items: [
       {
         id: 1,
         name: "HD Foundation - Flawless Finish",
-        brand: "Rivaj HD",
+        brand: "Silk Hue HD",
         price: 1299,
         quantity: 1,
         image: "https://images.unsplash.com/photo-1595051665600-afd01ea7c446?w=200&q=80"
@@ -22,7 +22,7 @@ const OrderFailedPage = () => {
       {
         id: 2,
         name: "Matte Lipstick - Nude Collection",
-        brand: "Rivaj UK",
+        brand: "Silk Hue",
         price: 899,
         quantity: 2,
         image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=200&q=80"
