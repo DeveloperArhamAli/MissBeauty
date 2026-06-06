@@ -19,6 +19,9 @@ import ProfilePage from './pages/ProfilePage.jsx'
 import WishlistPage from './pages/WishlistPage.jsx'
 import OrdersPage from './pages/OrdersPage.jsx'
 import TrackOrderPage from './pages/TrackOrderPage.jsx'
+import AboutPage from './pages/AboutPage.jsx'
+import ContactPage from './pages/ContactPage.jsx'
+import FAQPage from './pages/FAQPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -76,6 +79,18 @@ const router = createBrowserRouter([
       {
         path: "/track-order/:orderId",
         element: <TrackOrderPage />
+      },
+      {
+        path: "/about",
+        element: <AboutPage />
+      },
+      {
+        path: "/contact",
+        element: <ContactPage />
+      },
+      {
+        path: "/faq",
+        element: <FAQPage />
       },
       {
         path: "/product/:productId",
