@@ -21,10 +21,10 @@ const SearchPage = () => {
     // Simulate API search
     setTimeout(() => {
       setResults([
-        { id: 1, name: "HD Foundation - Flawless Finish", brand: "Rivaj HD", price: 1299, oldPrice: 1799, rating: 4.8, reviews: 342, image: "https://images.unsplash.com/photo-1595051665600-afd01ea7c446?w=400&q=80", badge: "Sale" },
-        { id: 2, name: "Matte Lipstick - Nude Collection", brand: "Rivaj UK", price: 899, oldPrice: 1299, rating: 4.6, reviews: 189, image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80", badge: "Best Seller" },
-        { id: 3, name: "Vitamin C Brightening Serum", brand: "Rivaj UK", price: 1499, oldPrice: null, rating: 4.9, reviews: 456, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80", badge: null },
-        { id: 4, name: "Retinol Night Cream", brand: "Rivaj UK", price: 1799, oldPrice: 2499, rating: 4.6, reviews: 189, image: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=400&q=80", badge: "Sale" },
+        { id: 1, name: "HD Foundation - Flawless Finish", brand: "Silk Hue HD", price: 1299, oldPrice: 1799, rating: 4.8, reviews: 342, image: "https://images.unsplash.com/photo-1595051665600-afd01ea7c446?w=400&q=80", badge: "Sale" },
+        { id: 2, name: "Matte Lipstick - Nude Collection", brand: "Silk Hue", price: 899, oldPrice: 1299, rating: 4.6, reviews: 189, image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80", badge: "Best Seller" },
+        { id: 3, name: "Vitamin C Brightening Serum", brand: "Silk Hue", price: 1499, oldPrice: null, rating: 4.9, reviews: 456, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80", badge: null },
+        { id: 4, name: "Retinol Night Cream", brand: "Silk Hue", price: 1799, oldPrice: 2499, rating: 4.6, reviews: 189, image: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=400&q=80", badge: "Sale" },
       ]);
       setLoading(false);
     }, 800);

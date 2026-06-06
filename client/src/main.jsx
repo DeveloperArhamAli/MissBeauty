@@ -25,6 +25,10 @@ import FAQPage from './pages/FAQPage.jsx'
 import SearchPage from './pages/SearchPage.jsx'
 import BlogPage from './pages/BlogPage.jsx'
 import BlogPostPage from './pages/BlogPostPage.jsx'
+import ReturnPolicyPage from './pages/ReturnPolicyPage.jsx'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage.jsx'
+import ShippingPolicyPage from './pages/ShippingPolicyPage.jsx'
+import TermsPage from './pages/TermsPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -118,6 +122,22 @@ const router = createBrowserRouter([
       {
         path: "/blog/:postSlug",
         element: <BlogPostPage />
+      },
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicyPage />
+      },
+      {
+        path: "/return-policy",
+        element: <ReturnPolicyPage />
+      },
+      {
+        path: "/shipping-policy",
+        element: <ShippingPolicyPage />
+      },
+      {
+        path: "/terms-of-service",
+        element: <TermsPage />
       }
     ]
   }
