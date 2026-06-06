@@ -62,7 +62,9 @@ const Navbar = () => {
             </div>
 
             <button className="text-charcoal hover:text-gold transition-colors">
-              <i className="ri-search-line text-xl"></i>
+              <Link to={"/search"}>
+                <i className="ri-search-line text-xl"></i>
+              </Link>
             </button>
             
             <button className="text-charcoal hover:text-gold transition-colors hidden sm:block">

@@ -22,6 +22,7 @@ import TrackOrderPage from './pages/TrackOrderPage.jsx'
 import AboutPage from './pages/AboutPage.jsx'
 import ContactPage from './pages/ContactPage.jsx'
 import FAQPage from './pages/FAQPage.jsx'
+import SearchPage from './pages/SearchPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -91,6 +92,14 @@ const router = createBrowserRouter([
       {
         path: "/faq",
         element: <FAQPage />
+      },
+      {
+        path: "/search",
+        element: <SearchPage />
+      },
+      {
+        path: "/search/:query",
+        element: <SearchPage />
       },
       {
         path: "/product/:productId",
