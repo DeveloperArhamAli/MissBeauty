@@ -1,15 +1,14 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import CartDrawer from '../CartDrawer';
 import useAuthStore from '../../store/useAuthStore';
 import useCartStore from '../../store/useCartStore';
+import useUIStore from '../../store/useUIStore';
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
   const cartCount = useCartStore((state) => state.items.length);
   const { isAuthenticated } = useAuthStore();
+  const { cartDrawerOpen, openCartDrawer, closeCartDrawer, mobileMenuOpen, toggleMobileMenu, closeMobileMenu } = useUIStore();
 
   const navLinks = [
     { name: 'Shop', href: '/shop' },
@@ -26,11 +25,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Mobile Menu Button */}
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden text-charcoal"
-          >
-            <i className={`text-2xl ${isMenuOpen ? 'ri-close-line' : 'ri-menu-line'}`}></i>
-          </button>
+              onClick={toggleMobileMenu}
+              className="lg:hidden text-charcoal"
+            >
+              <i className={`text-2xl ${mobileMenuOpen ? 'ri-close-line' : 'ri-menu-line'}`}></i>
+            </button>
 
           {/* Desktop Navigation - Left */}
           <div className="hidden lg:flex items-center space-x-8">
@@ -81,7 +80,7 @@ const Navbar = () => {
             </button>
             
             <button 
-              onClick={() => setCartOpen(true)}
+              onClick={openCartDrawer}
               className="relative text-charcoal hover:text-gold transition-colors"
             >
               <i className="ri-shopping-cart-line text-xl cursor-pointer"></i>
@@ -96,7 +95,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      {isMenuOpen && (
+      {mobileMenuOpen && (
         <div className="lg:hidden bg-white border-t border-gray-100">
           <div className="container-custom py-4 space-y-2">
             {navLinks.map((link) => (
@@ -104,7 +103,7 @@ const Navbar = () => {
                 key={link.name}
                 to={link.href}
                 className="block py-3 text-sm uppercase tracking-wider text-charcoal hover:text-gold transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeMobileMenu}
               >
                 {link.name}
               </Link>
@@ -113,7 +112,7 @@ const Navbar = () => {
         </div>
       )}
 
-      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      <CartDrawer isOpen={cartDrawerOpen} onClose={closeCartDrawer} />
       
     </nav>
   );
