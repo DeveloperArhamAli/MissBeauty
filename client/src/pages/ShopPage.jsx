@@ -1,21 +1,47 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '../components/ui/ProductCard';
+import useFilterStore from '../store/useFilterStore';
 
 const ShopPage = () => {
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [sortBy, setSortBy] = useState('featured');
-  const [viewMode, setViewMode] = useState('grid');
-  const [priceRange, setPriceRange] = useState([0, 5000]);
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 12;
+  const [localPriceRange, setLocalPriceRange] = useState([0, 5000]);
+  const activeCategory = useFilterStore((state) => state.activeCategory);
+  const sortBy = useFilterStore((state) => state.sortBy);
+  const viewMode = useFilterStore((state) => state.viewMode);
+  const priceRange = useFilterStore((state) => state.priceRange);
+  const selectedBrands = useFilterStore((state) => state.selectedBrands);
+  const onlyInStock = useFilterStore((state) => state.onlyInStock);
+  const onlyOnSale = useFilterStore((state) => state.onlyOnSale);
+  const mobileFilterOpen = useFilterStore((state) => state.mobileFilterOpen);
+  const currentPage = useFilterStore((state) => state.currentPage);
+  const productsPerPage = useFilterStore((state) => state.itemsPerPage);
+
+  const setActiveCategory = useFilterStore((state) => state.setActiveCategory);
+  const setSortBy = useFilterStore((state) => state.setSortBy);
+  const setViewMode = useFilterStore((state) => state.setViewMode);
+  const setPriceRange = useFilterStore((state) => state.setPriceRange);
+  const toggleBrand = useFilterStore((state) => state.toggleBrand);
+  const setOnlyInStock = useFilterStore((state) => state.setOnlyInStock);
+  const setOnlyOnSale = useFilterStore((state) => state.setOnlyOnSale);
+  const setCurrentPage = useFilterStore((state) => state.setCurrentPage);
+  const openMobileFilters = useFilterStore((state) => state.openMobileFilters);
+  const closeMobileFilters = useFilterStore((state) => state.closeMobileFilters);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1000);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    setLocalPriceRange(priceRange);
+  }, [priceRange]);
+
+  const isPriceRangeValid =
+    Number.isFinite(localPriceRange[0]) &&
+    Number.isFinite(localPriceRange[1]) &&
+    localPriceRange[0] >= 0 &&
+    localPriceRange[0] <= localPriceRange[1];
 
   // Sample products data
   const allProducts = [
@@ -37,13 +63,31 @@ const ShopPage = () => {
     { id: 16, name: "Sunscreen SPF 50", brand: "Silk Hue", price: 699, oldPrice: 899, rating: 4.5, reviews: 445, image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&q=80", badge: "Sale", category: "skincare" },
   ];
 
+  const categoryNames = {
+    makeup: 'Makeup',
+    skincare: 'Skin Care',
+    haircare: 'Hair Care',
+    fragrances: 'Fragrances',
+    accessories: 'Accessories',
+  };
+
+  const categoryIds = Object.keys(categoryNames);
+  
+  const outOfStockProductIds = [3, 6, 9, 12];
+  const productsWithStock = allProducts.map((product) => ({
+    ...product,
+    inStock: !outOfStockProductIds.includes(product.id),
+  }));
+
+  const brands = [...new Set(allProducts.map((product) => product.brand))];
+
   const categories = [
-    { id: 'all', name: 'All Products', count: 120 },
-    { id: 'makeup', name: 'Makeup', count: 45 },
-    { id: 'skincare', name: 'Skin Care', count: 35 },
-    { id: 'haircare', name: 'Hair Care', count: 20 },
-    { id: 'fragrances', name: 'Fragrances', count: 12 },
-    { id: 'accessories', name: 'Accessories', count: 8 },
+    { id: 'all', name: 'All Products', count: allProducts.length },
+    ...categoryIds.map(catId => ({
+      id: catId,
+      name: categoryNames[catId],
+      count: allProducts.filter(p => p.category === catId).length,
+    })),
   ];
 
   const sortOptions = [
@@ -55,10 +99,19 @@ const ShopPage = () => {
     { value: 'popular', label: 'Most Popular' },
   ];
 
-  // Filter products by category
-  const filteredProducts = activeCategory === 'all' 
-    ? allProducts 
-    : allProducts.filter(product => product.category === activeCategory);
+  // Filter products by category, price, brand, and availability
+  const [minPrice, maxPrice] = priceRange[0] <= priceRange[1]
+    ? priceRange
+    : [priceRange[1], priceRange[0]];
+
+  const filteredProducts = productsWithStock.filter((product) => {
+    if (activeCategory !== 'all' && product.category !== activeCategory) return false;
+    if (product.price < minPrice || product.price > maxPrice) return false;
+    if (selectedBrands.length > 0 && !selectedBrands.includes(product.brand)) return false;
+    if (onlyInStock && !product.inStock) return false;
+    if (onlyOnSale && !(product.oldPrice && product.oldPrice > product.price)) return false;
+    return true;
+  });
 
   // Sort products
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -163,8 +216,10 @@ const ShopPage = () => {
                       <label className="text-xs text-gray-500 mb-1 block">Min</label>
                       <input
                         type="number"
-                        value={priceRange[0]}
-                        onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
+                        value={localPriceRange[0]}
+                        onChange={(e) => {
+                          setLocalPriceRange([Number(e.target.value), localPriceRange[1]]);
+                        }}
                         className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold"
                         placeholder="0"
                       />
@@ -174,14 +229,24 @@ const ShopPage = () => {
                       <label className="text-xs text-gray-500 mb-1 block">Max</label>
                       <input
                         type="number"
-                        value={priceRange[1]}
-                        onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
+                        value={localPriceRange[1]}
+                        onChange={(e) => {
+                          setLocalPriceRange([localPriceRange[0], Number(e.target.value)]);
+                        }}
                         className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold"
                         placeholder="5000"
                       />
                     </div>
                   </div>
-                  <button className="w-full bg-charcoal text-white py-2 rounded-lg text-sm uppercase tracking-wider hover:bg-gold transition-colors">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPriceRange(localPriceRange);
+                      setCurrentPage(1);
+                    }}
+                    disabled={!isPriceRangeValid}
+                    className={`w-full py-2 rounded-lg text-sm uppercase tracking-wider transition-colors ${isPriceRangeValid ? 'bg-charcoal text-white hover:bg-gold' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
+                  >
                     Apply Filter
                   </button>
                 </div>
@@ -191,10 +256,15 @@ const ShopPage = () => {
               <div>
                 <h3 className="font-serif text-lg font-bold text-charcoal mb-4">Brands</h3>
                 <div className="space-y-2">
-                  {['Silk Hue', 'Silk Hue HD', 'Silk Hue Pro'].map((brand) => (
+                  {brands.map((brand) => (
                     <label key={brand} className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"
+                        checked={selectedBrands.includes(brand)}
+                        onChange={() => {
+                          toggleBrand(brand);
+                          setCurrentPage(1);
+                        }}
                         className="w-4 h-4 rounded border-gray-300 text-gold focus:ring-gold"
                       />
                       <span className="text-sm text-gray-600">{brand}</span>
@@ -210,7 +280,11 @@ const ShopPage = () => {
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="checkbox"
-                      defaultChecked
+                      checked={onlyInStock}
+                      onChange={(e) => {
+                        setOnlyInStock(e.target.checked);
+                        setCurrentPage(1);
+                      }}
                       className="w-4 h-4 rounded border-gray-300 text-gold focus:ring-gold"
                     />
                     <span className="text-sm text-gray-600">In Stock</span>
@@ -218,6 +292,11 @@ const ShopPage = () => {
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="checkbox"
+                      checked={onlyOnSale}
+                      onChange={(e) => {
+                        setOnlyOnSale(e.target.checked);
+                        setCurrentPage(1);
+                      }}
                       className="w-4 h-4 rounded border-gray-300 text-gold focus:ring-gold"
                     />
                     <span className="text-sm text-gray-600">On Sale</span>
@@ -233,7 +312,7 @@ const ShopPage = () => {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
               {/* Mobile Filter Button */}
               <button
-                onClick={() => setMobileFilterOpen(true)}
+                onClick={openMobileFilters}
                 className="lg:hidden flex items-center gap-2 px-4 py-2.5 border-2 border-gray-200 rounded-lg text-sm font-medium text-charcoal hover:border-gold transition-colors w-fit"
               >
                 <i className="ri-filter-3-line"></i>
@@ -425,7 +504,7 @@ const ShopPage = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-              onClick={() => setMobileFilterOpen(false)}
+              onClick={closeMobileFilters}
             />
             <motion.div
               initial={{ x: '100%' }}
@@ -438,7 +517,7 @@ const ShopPage = () => {
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="font-serif text-xl font-bold text-charcoal">Filters</h3>
                   <button
-                    onClick={() => setMobileFilterOpen(false)}
+                    onClick={closeMobileFilters}
                     className="text-gray-500 hover:text-charcoal"
                   >
                     <i className="ri-close-line text-2xl"></i>
@@ -456,7 +535,7 @@ const ShopPage = () => {
                           onClick={() => {
                             setActiveCategory(category.id);
                             setCurrentPage(1);
-                            setMobileFilterOpen(false);
+                            closeMobileFilters();
                           }}
                           className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${
                             activeCategory === category.id
