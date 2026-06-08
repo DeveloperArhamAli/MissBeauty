@@ -1,63 +1,11 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import useCartStore from '../store/useCartStore';
+import useWishlistStore from '../store/useWishlistStore';
 
 const WishlistPage = () => {
-  const [wishlistItems, setWishlistItems] = useState([
-    {
-      id: 1,
-      name: "HD Foundation - Flawless Finish",
-      brand: "Silk Hue HD",
-      price: 1299,
-      oldPrice: 1799,
-      rating: 4.8,
-      reviews: 342,
-      image: "https://images.unsplash.com/photo-1595051665600-afd01ea7c446?w=400&q=80",
-      inStock: true,
-      addedDate: 'June 15, 2024'
-    },
-    {
-      id: 2,
-      name: "Vitamin C Brightening Serum",
-      brand: "Silk Hue",
-      price: 1499,
-      oldPrice: 1999,
-      rating: 4.9,
-      reviews: 456,
-      image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80",
-      inStock: true,
-      addedDate: 'June 10, 2024'
-    },
-    {
-      id: 3,
-      name: "Matte Eyeshadow Palette",
-      brand: "Silk Hue HD",
-      price: 2499,
-      oldPrice: null,
-      rating: 4.8,
-      reviews: 89,
-      image: "https://images.unsplash.com/photo-1583241800698-e8ad37617af1?w=400&q=80",
-      inStock: false,
-      addedDate: 'June 5, 2024'
-    },
-    {
-      id: 4,
-      name: "Rose Water Toner",
-      brand: "Silk Hue",
-      price: 599,
-      oldPrice: 899,
-      rating: 4.8,
-      reviews: 345,
-      image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&q=80",
-      inStock: true,
-      addedDate: 'June 1, 2024'
-    }
-  ]);
-
-  const removeFromWishlist = (id) => {
-    setWishlistItems(items => items.filter(item => item.id !== id));
-  };
+  const wishlistItems = useWishlistStore((state) => state.items);
+  const removeFromWishlist = useWishlistStore((state) => state.removeItem);
 
   const addToCart = useCartStore((state) => state.addToCart);
 

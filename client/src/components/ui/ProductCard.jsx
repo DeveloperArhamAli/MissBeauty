@@ -2,14 +2,18 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import useCartStore from '../../store/useCartStore';
+import useWishlistStore from '../../store/useWishlistStore';
 
 const ProductCard = ({ product }) => {
   const [isHovered, setIsHovered] = useState(false);
   const cartItems = useCartStore((state) => state.items);
   const addToCart = useCartStore((state) => state.addToCart);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const toggleWishlist = useWishlistStore((state) => state.toggleItem);
+  const isInWishlist = useWishlistStore((state) => state.isInWishlist);
   
   const cartItem = cartItems.find(item => item.id === product.id);
+  const inWishlist = isInWishlist(product.id || product._id);
 
   return (
     <motion.div
@@ -47,18 +51,20 @@ const ProductCard = ({ product }) => {
         }`}>
           <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
             <motion.button
+              type="button"
               initial={{ y: 20, opacity: 0 }}
               animate={isHovered ? { y: 0, opacity: 1 } : {}}
               transition={{ delay: 0.1 }}
-              className="bg-white p-3 rounded-full hover:bg-gold hover:text-white transition-colors"
+              onClick={() => toggleWishlist(product)}
+              className={`py-2 px-3 cursor-pointer rounded-full transition-colors ${inWishlist ? 'bg-gold text-white' : 'bg-white text-charcoal hover:bg-gold hover:text-white'}`}
             >
-              <i className="ri-heart-line text-lg"></i>
+              <i className={`${inWishlist ? 'ri-heart-fill' : 'ri-heart-line'} text-lg`}></i>
             </motion.button>
             <motion.button
               initial={{ y: 20, opacity: 0 }}
               animate={isHovered ? { y: 0, opacity: 1 } : {}}
               transition={{ delay: 0.2 }}
-              className="bg-white p-3 rounded-full hover:bg-gold hover:text-white transition-colors"
+              className="bg-white py-2 px-3 cursor-pointer rounded-full hover:bg-gold hover:text-white transition-colors"
             >
               <i className="ri-eye-line text-lg"></i>
             </motion.button>
@@ -136,7 +142,8 @@ const ProductCard = ({ product }) => {
 
 ProductCard.propTypes = {
   product: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    _id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     name: PropTypes.string.isRequired,
     brand: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,

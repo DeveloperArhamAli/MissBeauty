@@ -5,6 +5,7 @@ import { Navigation, Thumbs, FreeMode } from 'swiper/modules';
 import ProductCard from '../components/ui/ProductCard';
 import SectionTitle from '../components/ui/SectionTitle';
 import useCartStore from '../store/useCartStore';
+import useWishlistStore from '../store/useWishlistStore';
 import { bestSellers } from "../data/homepage"
 
 const ProductPage = () => {
@@ -18,6 +19,8 @@ const ProductPage = () => {
   const addToCart = useCartStore((state) => state.addToCart);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const cartItems = useCartStore((state) => state.items);
+  const toggleWishlistItem = useWishlistStore((state) => state.toggleItem);
+  const isInWishlist = useWishlistStore((state) => state.isInWishlist);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1000);
@@ -380,9 +383,13 @@ const ProductPage = () => {
 
             {/* Additional Actions */}
             <div className="flex flex-wrap gap-4 md:gap-6 pt-1 md:pt-2">
-              <button className="flex items-center gap-2 text-gray-600 hover:text-gold transition-colors text-xs md:text-sm">
-                <i className="ri-heart-add-line"></i>
-                Add to Wishlist
+              <button
+                type="button"
+                onClick={() => toggleWishlistItem(product)}
+                className="flex items-center gap-2 text-gray-600 hover:text-gold transition-colors text-xs md:text-sm"
+              >
+                <i className={isInWishlist(product.id || product._id) ? 'ri-heart-fill text-gold' : 'ri-heart-add-line'}></i>
+                {isInWishlist(product.id || product._id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
               </button>
               <button className="flex items-center gap-2 text-gray-600 hover:text-gold transition-colors text-xs md:text-sm">
                 <i className="ri-scales-line"></i>
