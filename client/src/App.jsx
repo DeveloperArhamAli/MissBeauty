@@ -5,7 +5,6 @@ import { AnimatePresence } from 'framer-motion'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import AnnouncementBar from './components/layout/AnnouncementBar'
-import CartDrawer from './components/CartDrawer'
 
 import ScrollToTop from './components/utils/ScrollToTop'
 import ProtectedRoute from './components/utils/ProtectedRoute'
@@ -41,12 +40,12 @@ const ReturnPolicyPage = lazy(() => import('./pages/ReturnPolicyPage'))
 
 function App() {
   return (
-    <>
-      <ScrollToTop />
-      <AnnouncementBar />
-      <Navbar />
-      
-      <main className="min-h-screen">
+      <>
+        <ScrollToTop />
+        <AnnouncementBar />
+        <Navbar />
+        
+        <main className="min-h-screen">
         <Suspense fallback={<LoadingSpinner />}>
           <AnimatePresence mode="wait">
             <Routes>
@@ -102,8 +101,7 @@ function App() {
       </main>
       
       <Footer />
-      <CartDrawer />
-    </>
+      </>
   )
 }
 
