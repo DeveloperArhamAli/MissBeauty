@@ -1,9 +1,15 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import useCartStore from '../../store/useCartStore';
 
 const ProductCard = ({ product }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const cartItems = useCartStore((state) => state.items);
+  const addToCart = useCartStore((state) => state.addToCart);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
+  
+  const cartItem = cartItems.find(item => item.id === product.id);
 
   return (
     <motion.div
@@ -95,10 +101,34 @@ const ProductCard = ({ product }) => {
         </div>
 
         {/* Add to Cart Button */}
-        <button className="w-full bg-charcoal text-white py-3 text-sm uppercase tracking-wider hover:bg-gold transition-colors duration-300 flex items-center justify-center gap-2">
-          <i className="ri-shopping-cart-line"></i>
-          Add to Cart
-        </button>
+        {cartItem ? (
+          <div className="w-full bg-charcoal text-white py-3 text-sm uppercase tracking-wider flex items-center justify-between px-4 rounded-lg">
+            <button
+              type="button"
+              onClick={() => updateQuantity(cartItem.lineId, cartItem.quantity - 1)}
+              className="w-8 h-8 flex items-center justify-center hover:bg-white hover:text-charcoal transition-colors rounded"
+            >
+              <i className="ri-subtract-line"></i>
+            </button>
+            <span className="font-semibold text-base">{cartItem.quantity}</span>
+            <button
+              type="button"
+              onClick={() => updateQuantity(cartItem.lineId, cartItem.quantity + 1)}
+              className="w-8 h-8 flex items-center justify-center hover:bg-white hover:text-charcoal transition-colors rounded"
+            >
+              <i className="ri-add-line"></i>
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => addToCart(product)}
+            className="w-full bg-charcoal text-white py-3 text-sm uppercase tracking-wider hover:bg-gold transition-colors duration-300 flex items-center justify-center gap-2 rounded-lg"
+          >
+            <i className="ri-shopping-cart-line"></i>
+            Add to Cart
+          </button>
+        )}
       </div>
     </motion.div>
   );

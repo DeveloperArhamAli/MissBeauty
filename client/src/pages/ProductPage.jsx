@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Thumbs, FreeMode } from 'swiper/modules';
 import ProductCard from '../components/ui/ProductCard';
 import SectionTitle from '../components/ui/SectionTitle';
+import useCartStore from '../store/useCartStore';
 import { bestSellers } from "../data/homepage"
 
 const ProductPage = () => {
@@ -14,6 +15,9 @@ const ProductPage = () => {
   const [activeTab, setActiveTab] = useState('description');
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
+  const addToCart = useCartStore((state) => state.addToCart);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const cartItems = useCartStore((state) => state.items);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1000);
@@ -80,6 +84,9 @@ const ProductPage = () => {
     ],
     relatedProducts: bestSellers.slice(0, 4)
   };
+
+  const lineId = `${product.id}-${selectedVariant}-${selectedSize}`;
+  const cartItem = cartItems.find(item => item.lineId === lineId);
 
   const ProductPageSkeleton = () => (
     <div className="animate-pulse">
@@ -332,10 +339,39 @@ const ProductPage = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
-              <button className="flex-1 bg-charcoal text-white py-3 md:py-4 px-6 md:px-8 rounded-lg uppercase text-xs md:text-sm tracking-wider font-medium hover:bg-gold transition-colors duration-300 flex items-center justify-center gap-2">
-                <i className="ri-shopping-cart-line text-base md:text-lg"></i>
-                Add to Cart
-              </button>
+              {cartItem ? (
+                <div className="flex-1 bg-charcoal text-white py-3 md:py-4 px-6 md:px-8 rounded-lg uppercase text-xs md:text-sm tracking-wider font-medium flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => updateQuantity(lineId, cartItem.quantity - 1)}
+                    className="w-8 h-8 flex items-center justify-center hover:bg-white hover:text-charcoal transition-colors rounded"
+                  >
+                    <i className="ri-subtract-line text-lg"></i>
+                  </button>
+                  <span className="font-semibold text-lg">{cartItem.quantity}</span>
+                  <button
+                    type="button"
+                    onClick={() => updateQuantity(lineId, cartItem.quantity + 1)}
+                    className="w-8 h-8 flex items-center justify-center hover:bg-white hover:text-charcoal transition-colors rounded"
+                  >
+                    <i className="ri-add-line text-lg"></i>
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => addToCart({
+                    ...product,
+                    selectedSize,
+                    selectedVariant,
+                    quantity,
+                  })}
+                  className="flex-1 bg-charcoal text-white py-3 md:py-4 px-6 md:px-8 rounded-lg uppercase text-xs md:text-sm tracking-wider font-medium hover:bg-gold transition-colors duration-300 flex items-center justify-center gap-2"
+                >
+                  <i className="ri-shopping-cart-line text-base md:text-lg"></i>
+                  Add to Cart
+                </button>
+              )}
               <button className="flex-1 bg-gold text-white py-3 md:py-4 px-6 md:px-8 rounded-lg uppercase text-xs md:text-sm tracking-wider font-medium hover:bg-gold-dark transition-colors duration-300 flex items-center justify-center gap-2">
                 <i className="ri-flashlight-line text-base md:text-lg"></i>
                 Buy Now

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import useCartStore from '../store/useCartStore';
 
 const WishlistPage = () => {
   const [wishlistItems, setWishlistItems] = useState([
@@ -58,11 +59,11 @@ const WishlistPage = () => {
     setWishlistItems(items => items.filter(item => item.id !== id));
   };
 
+  const addToCart = useCartStore((state) => state.addToCart);
+
   const addAllToCart = () => {
-    // Add all in-stock items to cart
     const inStockItems = wishlistItems.filter(item => item.inStock);
-    console.log(inStockItems);
-    // API call to add to cart
+    inStockItems.forEach((item) => addToCart({ ...item, quantity: 1 }));
   };
 
   return (
@@ -180,7 +181,9 @@ const WishlistPage = () => {
                   </div>
 
                   <button
+                    type="button"
                     disabled={!item.inStock}
+                    onClick={() => addToCart({ ...item, quantity: 1 })}
                     className={`w-full py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
                       item.inStock
                         ? 'bg-charcoal text-white hover:bg-gold'

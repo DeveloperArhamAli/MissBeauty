@@ -1,34 +1,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import useCartStore from '../store/useCartStore';
 
 const CheckoutPage = () => {
   const [shippingMethod, setShippingMethod] = useState('standard');
   const [showOrderSummary, setShowOrderSummary] = useState(false);
-
-  // Sample cart data
-  const cartItems = [
-    {
-      id: 1,
-      name: "HD Foundation - Flawless Finish",
-      brand: "Silk Hue HD",
-      price: 1299,
-      quantity: 1,
-      variant: "Natural Beige",
-      size: "30ml",
-      image: "https://images.unsplash.com/photo-1595051665600-afd01ea7c446?w=200&q=80"
-    },
-    {
-      id: 2,
-      name: "Matte Lipstick - Nude Collection",
-      brand: "Silk Hue",
-      price: 899,
-      quantity: 2,
-      variant: "Rose Pink",
-      size: null,
-      image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=200&q=80"
-    }
-  ];
+  const cartItems = useCartStore((state) => state.items);
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shippingCost = shippingMethod === 'express' ? 299 : subtotal > 1999 ? 0 : 199;

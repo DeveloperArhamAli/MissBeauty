@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import CartDrawer from '../CartDrawer';
 import useAuthStore from '../../store/useAuthStore';
+import useCartStore from '../../store/useCartStore';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-  const [cartCount] = useState(3);
+  const cartCount = useCartStore((state) => state.items.length);
   const { isAuthenticated } = useAuthStore();
 
   const navLinks = [

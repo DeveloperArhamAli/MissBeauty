@@ -1,86 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import useCartStore from '../store/useCartStore';
 
 const CartDrawer = ({ isOpen, onClose }) => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "HD Foundation - Flawless Finish",
-      brand: "Silk Hue HD",
-      price: 1299,
-      quantity: 1,
-      variant: "Natural Beige",
-      size: "30ml",
-      image: "https://images.unsplash.com/photo-1595051665600-afd01ea7c446?w=200&q=80"
-    },
-    {
-      id: 2,
-      name: "Matte Lipstick - Nude Collection",
-      brand: "Silk Hue",
-      price: 899,
-      quantity: 2,
-      variant: "Rose Pink",
-      size: null,
-      image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=200&q=80"
-    },
-    {
-      id: 3,
-      name: "Vitamin C Brightening Serum",
-      brand: "Silk Hue",
-      price: 1499,
-      quantity: 1,
-      variant: null,
-      size: "30ml",
-      image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200&q=80"
-    }
-  ]);
+  const cartItems = useCartStore((state) => state.items);
+  const updateQuantityInStore = useCartStore((state) => state.updateQuantity);
+  const removeItemFromStore = useCartStore((state) => state.removeFromCart);
 
   // Lock body scroll when cart is open
   useEffect(() => {
     if (isOpen) {
-      // Save current scroll position
-      const scrollY = window.scrollY;
-      
-      // Lock body
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
-      document.body.style.overflowY = 'scroll'; // Prevent layout shift
+      document.body.style.overflow = 'hidden';
     } else {
-      // Restore scroll position
-      const scrollY = document.body.style.top;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      document.body.style.overflowY = '';
-      
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
-      }
+      document.body.style.overflow = '';
     }
 
-    // Cleanup on unmount
     return () => {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      document.body.style.overflowY = '';
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
-  const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+  const updateQuantity = (lineId, newQuantity) => {
+    updateQuantityInStore(lineId, newQuantity)
   };
 
-  const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
+  const removeItem = (lineId) => {
+    removeItemFromStore(lineId)
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -147,7 +94,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                 <div className="space-y-4">
                   {cartItems.map((item, index) => (
                     <motion.div
-                      key={item.id}
+                      key={item.lineId}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
@@ -186,7 +133,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                           {/* Quantity Controls */}
                           <div className="flex items-center border border-gray-200 rounded-lg bg-white">
                             <button
-                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              onClick={() => updateQuantity(item.lineId, item.quantity - 1)}
                               className="w-7 h-7 flex items-center justify-center hover:bg-gray-50 transition-colors text-gray-500"
                             >
                               <i className="ri-subtract-line text-sm"></i>
@@ -195,7 +142,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                               {item.quantity}
                             </span>
                             <button
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              onClick={() => updateQuantity(item.lineId, item.quantity + 1)}
                               className="w-7 h-7 flex items-center justify-center hover:bg-gray-50 transition-colors text-gray-500"
                             >
                               <i className="ri-add-line text-sm"></i>
@@ -206,7 +153,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
                       {/* Remove Button */}
                       <button
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item.lineId)}
                         className="self-start p-1 hover:text-red-500 transition-colors text-gray-400"
                       >
                         <i className="ri-delete-bin-line"></i>

@@ -64,8 +64,3 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-
-/* Smooth Scroll */
-html {
-  scroll-behavior: smooth;
-}
