@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { motion } from "framer-motion"
-import axios from "axios"
+import { loginUser as loginUserApi } from "../api/authApi"
 import useAuthStore from "../store/useAuthStore"
 
 function Login() {
@@ -19,7 +19,7 @@ function Login() {
         setError(null)
         setLoading(true)
         try {
-            const response = await axios.post('/api/users/login', data)
+            const response = await loginUserApi(data)
             if (response.data.token) {
                 const userData = response.data.user
                 login(userData)
@@ -28,7 +28,7 @@ function Login() {
                 setError(response.data.errorMessage)
             }
         } catch (error) {
-            setError(error.response?.data?.message || "An error occurred during login")
+            setError(error.errorMessage || error.message || "An error occurred during login")
         } finally {
             setLoading(false)
         }

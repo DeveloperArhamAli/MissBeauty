@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { motion } from "framer-motion"
-import axios from "axios"
+import { registerUser as registerUserApi } from "../api/authApi"
 import useAuthStore from "../store/useAuthStore"
 
 function SignUp() {
@@ -19,7 +19,7 @@ function SignUp() {
         setError(null)
         setLoading(true)
         try {
-            const response = await axios.post('/api/users/register', data)
+            const response = await registerUserApi(data)
             if (response.data.token) {
                 const userData = response.data.user
                 login(userData)
@@ -28,7 +28,7 @@ function SignUp() {
                 setError(response.data.errorMessage)
             }
         } catch (error) {
-            setError(error.response?.data?.message || "An error occurred during registration")
+            setError(error.errorMessage || error.message || "An error occurred during registration")
         } finally {
             setLoading(false)
         }
