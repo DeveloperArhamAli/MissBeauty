@@ -1,38 +1,27 @@
-const express = require("express");
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+
 const app = express();
-const cookieParser = require("cookie-parser");
-const path = require("path");
-const expressSession = require("express-session");
-const flash = require("connect-flash");
 
-require("dotenv").config();
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+}));
 
-const ownersRouter = require("./routes/ownersRouter");
-const productsRouter = require("./routes/productsRouter");
-const usersRouter = require("./routes/usersRouter");
-const indexRouter = require("./routes/index");
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use(express.static("public"));
+app.use(cookieParser());
 
-const db = require("./config/mongoose-connection");
+import usersRouter from "./routes/usersRouter.js";
+import ownersRouter from "./routes/ownersRouter.js";
+import productsRouter from "./routes/productsRouter.js";
+import indexRouter from "./routes/index.js";
 
-app.use(express.json());;
-app.use(express.urlencoded({ extended: true }));;
-app.use(cookieParser()); ;
-app.use(
-    expressSession({
-        resave: false,
-        saveUninitialized: false,
-        secret: process.env.EXPRESS_SESSION_SECRET,
-    })
-);
-app.use(flash());
-app.use(express.static(path.join(__dirname, "public")));
-app.set("view engine", "ejs");
+app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/owners", ownersRouter);
+app.use("/api/v1/products", productsRouter);
+app.use("/api/v1/", indexRouter);
 
-app.use("/api", indexRouter);
-app.use("/api/owners", ownersRouter);
-app.use("/api/users", usersRouter);
-app.use("/api/product", productsRouter);
-
-app.listen(process.env.PORT, () => {
-    console.log(`App running on http://localhost:${process.env.PORT}`);
-})
+export { app };
