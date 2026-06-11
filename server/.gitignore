@@ -1,2 +1,55 @@
-node_modules
+# Dependencies
+node_modules/
+jspm_packages/
+web_modules/
+
+# Debugging and logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment variables and secrets
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Diagnostic reports and dumps
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Build directories and outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+
+# Testing footprint
+coverage/
+.nyc_output/
+.jest/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# IDEs and Text Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Operating System specific files
+.DS_Store
+Thumbs.db
