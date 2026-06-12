@@ -17,11 +17,9 @@ app.use(cookieParser());
 import authRouter from "./routes/auth.routes.js";
 import usersRouter from "./routes/usersRouter.js";
 import productsRouter from "./routes/productsRouter.js";
-import indexRouter from "./routes/index.js";
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/products", productsRouter);
-app.use("/api/v1/", indexRouter);
 
 export { app };
