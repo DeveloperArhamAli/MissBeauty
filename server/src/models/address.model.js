@@ -6,7 +6,7 @@ const addressSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    tag: [
+    tags: [
         {
             type: String,
             enum: ["shipping", "home", "work"],

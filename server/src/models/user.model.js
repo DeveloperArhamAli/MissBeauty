@@ -31,26 +31,12 @@ const userSchema = new mongoose.Schema({
         required: true,
         enum: ["user", "admin", "owner"]
     },
-    address: [
+    addresses: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Address",
         }
     ],
-    cart: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Cart",
-    },
-    orders: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Order",
-        }
-    ],
-    wishlist: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Wishlist",
-    },
     refreshToken: {
         type: String
     }

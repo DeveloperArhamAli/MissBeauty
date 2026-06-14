@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const productSchema = new mongoose.Schema({
-    image: [
+    images: [
         {
             type: {
                 public_id: String,
@@ -36,25 +36,19 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    variant: [
+    variants: [
         {
             type: String,
             required: true
         }
     ],
-    size: [
+    sizes: [
         {
             type: String,
             required: true
         }
     ],
-    reviews: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Reviews"
-        }
-    ],
-    category: [
+    categories: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Category",

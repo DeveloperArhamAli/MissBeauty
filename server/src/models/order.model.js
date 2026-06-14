@@ -16,7 +16,7 @@ const orderSchema = new mongoose.Schema({
         required: true,
         enum: ["pending", "confirmed", "processing", "shipped", "delivered"]
     },
-    product: [
+    products: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "OrderProduct",
