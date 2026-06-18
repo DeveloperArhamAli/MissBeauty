@@ -1,12 +1,14 @@
-import fs from "fs";
 import { Product } from "../models/product.model";
 import { Review } from "../models/review.model";
 import { Wishlist } from "../models/wishlist.model";
 import { Cart } from "../models/cart.model";
+import { Category } from "../models/category.model"
 import { asyncHandler } from "../utils/asyncHandler";
 import { ApiResponse } from "../utils/ApiResponse";
 import { ApiError } from "../utils/ApiError";
 import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary"
+import mongoose from "mongoose";
+import fs from "fs";
 
 const createProduct = asyncHandler( async (req, res) => {
     const { name, description, price, discount, stock, brand, variants, sizes, categories } = req.body;
@@ -225,8 +227,313 @@ const deleteProduct = asyncHandler( async (req, res) => {
         )
 } )
 
+const getAllProducts = asyncHandler( async (req, res) => {
+    const {
+        page = 1,
+        limit = 12,
+        sort = "-createdAt",
+        category,
+        brand,
+        minPrice,
+        maxPrice,
+        search,
+        inStock,
+        hasDiscount,
+        minRating,
+        maxRating,
+    } = req.query;
+    
+    const pageNum = Math.max(1, parseInt(page));
+    const limitNum = Math.min(50, Math.max(1, parseInt(limit)));
+    const skip = (pageNum - 1) * limitNum;
+
+    const matchStage = {};
+
+    if (category) {
+        if (mongoose.Types.ObjectId.isValid(category)) {
+            matchStage.categories = mongoose.Types.ObjectId(category);
+        } else {
+            const categoryDoc = await Category.findOne({ name: category });
+            if (categoryDoc) {
+                matchStage.categories = categoryDoc._id;
+            }
+        }
+    }
+
+    if (brand) {
+        matchStage.brand = { $regex: brand, $options: 'i' };
+    }
+
+    if (minPrice || maxPrice) {
+        matchStage.price = {};
+        if (minPrice) matchStage.price.$gte = Number(minPrice);
+        if (maxPrice) matchStage.price.$lte = Number(maxPrice);
+    }
+
+    if (inStock === 'true') {
+        matchStage.stock = { $gt: 0 };
+    }
+
+    if (hasDiscount === 'true') {
+        matchStage.discount = { $gt: 0 };
+    }
+
+    if (search) {
+        matchStage.$or = [
+            { name: { $regex: search, $options: 'i' } },
+            { description: { $regex: search, $options: 'i' } },
+            { brand: { $regex: search, $options: 'i' } }
+        ];
+    }
+
+    let sortObj = { createdAt: -1 };
+    if (sort) {
+        sortObj = {};
+        sort.split(',').forEach(field => {
+            let direction = 1;
+            if (field.startsWith('-')) {
+                direction = -1;
+                field = field.substring(1);
+            }
+            sortObj[field] = direction;
+        });
+    }
+
+    const aggregationPipeline = [
+        { $match: matchStage },
+        {
+            $lookup: {
+                from: 'reviews',
+                localField: '_id',
+                foreignField: 'productId',
+                as: 'reviews'
+            }
+        },
+        {
+            $addFields: {
+                averageRating: {
+                    $cond: {
+                        if: { $eq: [{ $size: '$reviews' }, 0] },
+                        then: 0,
+                        else: { $avg: '$reviews.rating' }
+                    }
+                },
+                reviewCount: { $size: '$reviews' },
+                finalPrice: {
+                    $cond: {
+                        if: { $gt: ['$discount', 0] },
+                        then: { $subtract: ['$price', '$discount'] },
+                        else: '$price'
+                    }
+                },
+                discountPercentage: {
+                    $cond: {
+                        if: { $gt: ['$discount', 0] },
+                        then: { $multiply: [{ $divide: ['$discount', '$price'] }, 100] },
+                        else: 0
+                    }
+                }
+            }
+        }
+    ];
+
+    if (minRating || maxRating) {
+        const ratingMatch = {};
+        if (minRating) ratingMatch.averageRating = { $gte: Number(minRating) };
+        if (maxRating) ratingMatch.averageRating = { ...ratingMatch.averageRating, $lte: Number(maxRating) };
+        aggregationPipeline.push({ $match: ratingMatch });
+    }
+
+    const countPipeline = [...aggregationPipeline];
+    const countResult = await Product.aggregate([
+        ...countPipeline,
+        { $count: 'total' }
+    ]);
+    const totalProducts = countResult[0]?.total || 0;
+
+    aggregationPipeline.push(
+        { $sort: sortObj },
+        { $skip: skip },
+        { $limit: limitNum },
+        {
+            $lookup: {
+                from: 'categories',
+                localField: 'categories',
+                foreignField: '_id',
+                as: 'categoryDetails'
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                name: 1,
+                description: 1,
+                price: 1,
+                discount: 1,
+                finalPrice: 1,
+                discountPercentage: { $round: ['$discountPercentage', 0] },
+                stock: 1,
+                brand: 1,
+                variants: 1,
+                sizes: 1,
+                images: 1,
+                createdAt: 1,
+                averageRating: { $round: ['$averageRating', 0] },
+                reviewCount: 1,
+                categoryDetails: { name: 1, _id: 1 }
+            }
+        }
+    );
+
+    const products = await Product.aggregate(aggregationPipeline);
+
+    const priceRangeResult = await Product.aggregate([
+        { $match: matchStage },
+        {
+            $group: {
+                _id: null,
+                minPrice: { $min: '$price' },
+                maxPrice: { $max: '$price' }
+            }
+        }
+    ]);
+
+    const availableBrands = await Product.distinct('brand', matchStage);
+    const availableCategories = await Category.find({}).select('name _id');
+
+    const totalPages = Math.ceil(totalProducts / limitNum);
+    const hasNextPage = pageNum < totalPages;
+    const hasPrevPage = pageNum > 1;
+
+    return res
+            .status(200)
+            .json(new ApiResponse(
+                200,
+                {
+                    products,
+                    pagination: {
+                        currentPage: pageNum,
+                        totalPages,
+                        totalProducts,
+                        limit: limitNum,
+                        hasNextPage,
+                        hasPrevPage,
+                        nextPage: hasNextPage ? pageNum + 1 : null,
+                        prevPage: hasPrevPage ? pageNum - 1 : null,
+                    },
+                    filters: {
+                        availableCategories,
+                        availableBrands,
+                        priceRange: priceRangeResult[0] ? {
+                            min: priceRangeResult[0].minPrice,
+                            max: priceRangeResult[0].maxPrice
+                        } : { min: 0, max: 0 },
+                    }
+                },
+                "Products fetched successfully"
+            ));
+} )
+
+const getProductById = asyncHandler( async (req, res) => {
+    const { productId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+        throw new ApiError(400, "Invalid product ID");
+    }
+
+    const product = await Product.aggregate([
+        {
+            $match: { _id: mongoose.Types.ObjectId(productId) }
+        },
+        {
+            $lookup: {
+                from: 'reviews',
+                localField: '_id',
+                foreignField: 'productId',
+                as: 'reviews'
+            }
+        },
+        {
+            $lookup: {
+                from: 'categories',
+                localField: 'categories',
+                foreignField: '_id',
+                as: 'categoryDetails'
+            }
+        },
+        {
+            $addFields: {
+                averageRating: {
+                    $cond: {
+                        if: { $eq: [{ $size: '$reviews' }, 0] },
+                        then: 0,
+                        else: { $avg: '$reviews.rating' }
+                    }
+                },
+                reviewCount: { $size: '$reviews' },
+                finalPrice: {
+                    $cond: {
+                        if: { $gt: ['$discount', 0] },
+                        then: { $subtract: ['$price', '$discount' ] },
+                        else: '$price'
+                    }
+                },
+                discountPercentage: {
+                    $cond: {
+                        if: { $gt: ['$discount', 0] },
+                        then: { $multiply: [{ $divide: ['$discount', '$price'] }, 100] },
+                        else: 0
+                    }
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                name: 1,
+                description: 1,
+                price: 1,
+                discount: 1,
+                finalPrice: { $round: ['$finalPrice', 0] },
+                discountPercentage: { $round: ['$discountPercentage', 0] },
+                stock: 1,
+                brand: 1,
+                variants: 1,
+                sizes: 1,
+                images: 1,
+                averageRating: { $round: ['$averageRating', 0] },
+                reviewCount: 1,
+                inStock: { $gt: ['$stock', 0] },
+                categoryDetails: { name: 1, _id: 1 },
+                reviews: {
+                    _id: 1,
+                    rating: 1,
+                    title: 1,
+                    comment: 1,
+                    userId: 1,
+                    createdAt: 1
+                }
+            }
+        }
+    ]);
+
+    if (!product || product.length === 0) {
+        throw new ApiError(404, "Product not found");
+    }
+
+    return res
+            .status(200)
+            .json(new ApiResponse(
+                200,
+                product[0],
+                "Product fetched successfully"
+            ));
+} )
+
 export {
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getAllProducts,
+    getProductById
 }
