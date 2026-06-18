@@ -1,12 +1,12 @@
-import { Product } from "../models/product.model";
-import { Review } from "../models/review.model";
-import { Wishlist } from "../models/wishlist.model";
-import { Cart } from "../models/cart.model";
-import { Category } from "../models/category.model"
-import { asyncHandler } from "../utils/asyncHandler";
-import { ApiResponse } from "../utils/ApiResponse";
-import { ApiError } from "../utils/ApiError";
-import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary"
+import { Product } from "../models/product.model.js";
+import { Review } from "../models/review.model.js";
+import { Wishlist } from "../models/wishlist.model.js";
+import { Cart } from "../models/cart.model.js";
+import { Category } from "../models/category.model.js"
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { ApiError } from "../utils/ApiError.js";
+import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js"
 import mongoose from "mongoose";
 import fs from "fs";
 
@@ -35,7 +35,7 @@ const createProduct = asyncHandler( async (req, res) => {
     const failedUploads = [];
 
     uploadResults.forEach((result, index) => {
-        if (result.status === "fulfilled" && result.value.sucess) {
+        if (result.status === "fulfilled" && result.value.success) {
             successUploads.push({
                 url: result.value.data.secure_url,
                 public_id: result.value.data.public_id
@@ -128,7 +128,7 @@ const updateProduct = asyncHandler( async (req, res) => {
         const failedUploads = [];
 
         uploadResults.forEach((result, index) => {
-            if (result.status === "fulfilled" && result.value.sucess) {
+            if (result.status === "fulfilled" && result.value.success) {
                 newlyUploaded.push({
                     url: result.value.data.secure_url,
                     public_id: result.value.data.public_id
@@ -206,7 +206,7 @@ const deleteProduct = asyncHandler( async (req, res) => {
     )
 
     deleteResults.forEach((result, index) => {
-        if (result.status === "rejected" || result.status === "fulfilled" && !result.value.sucess) {
+        if (result.status === "rejected" || result.status === "fulfilled" && !result.value.success) {
             throw new ApiError(400, `Failed to delete image ${productToBeDeleted.images[index]}`, result.reason);
         }
     })
